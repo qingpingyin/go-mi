@@ -20,8 +20,7 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 			})
 			return
 		}
-
-		claims, err := jwt.ParseToken(token)
+	claims, err := jwt.ParseToken(token)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"status": 401,
@@ -33,6 +32,15 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"status": 401,
 				"msg":  "token已过期",
+			})
+			return
+		}
+		//从redis中判断该token是否加入黑名单
+		has:=jwt.IsBlackExist(string(claims.Id),token)
+		if has {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"status": 401,
+				"msg":  "token已失效",
 			})
 			return
 		}

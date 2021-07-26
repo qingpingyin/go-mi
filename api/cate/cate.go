@@ -27,7 +27,7 @@ func Cate(c *gin.Context){
 			list = cate.CateTree(0)
 		case 1:
 			//header-nav 导航栏 流动显示
-			if list,err = models.GetCategoriesBy("is_nav",is_nav);err == nil {
+			if list,err = models.GetCategoriesBy("is_nav=?",is_nav);err == nil {
 				for i, v := range list {
 					product ,_ := models.GetAllProductBy(1,6,"cid=?",int(v.Id))
 					list[i].Product = product

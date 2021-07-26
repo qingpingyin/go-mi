@@ -56,3 +56,10 @@ type Jwt struct {
 	ExpTime int `mapstructure:"exp_time"`
 }
 
+//七牛云配置
+type QiNiuYun struct{
+	AccessKey string
+	SecretKey string
+	Bucket string
+	Server string
+}

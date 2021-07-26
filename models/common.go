@@ -47,6 +47,11 @@ func AutoMigrate(){
 	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT 'categories'").AutoMigrate(&Categories{})
 	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT 'product'").AutoMigrate(&Product{})
 	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT 'product_img'").AutoMigrate(&ProductImg{})
+	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT 'address'").AutoMigrate(&Address{})
+	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT 'order'").AutoMigrate(&Order{})
+	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT 'order_item'").AutoMigrate(&OrderItem{})
+	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT 'notice'").AutoMigrate(&Notice{})
+	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT 'collect'").AutoMigrate(&Collect{})
 }
 
 // 通用分页获取偏移量

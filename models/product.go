@@ -15,6 +15,7 @@ type Product struct {
 	Inventory uint `json:"inventory" gorm:"type:bigint(20);not null;comment:'库存'"`
 	CreatedAt time.Time `json:"create_at" gorm:"comment:'上架时间'"`
 	UpdatedAt  time.Time `json:"update_at" gorm:"comment:'更新时间'"`
+	IsChecked bool `json:"is_checked" gorm:"type:tinyint(4);default:0";comment:'0选定;1不勾选'`
 	ProductImg []ProductImg `json:"product_img" gorm:"foreignKey:Pid;references:Id"`
 }
 

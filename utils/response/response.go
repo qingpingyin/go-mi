@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func RespError(c *gin.Context,msg string){
+func RespError(c *gin.Context,msg interface{}){
 	c.JSON(http.StatusOK,gin.H{
 		"status":400,
 		"msg":msg,
@@ -25,7 +25,7 @@ func RespData(c *gin.Context,msg string,data interface{}){
 		"data":data,
 	})
 }
-func RespSuccess(c *gin.Context,msg string){
+func RespSuccess(c *gin.Context,msg interface{}){
 	c.JSON(http.StatusOK, gin.H{
 		"status": 200,
 		"msg":  msg,

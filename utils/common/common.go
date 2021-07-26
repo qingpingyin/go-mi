@@ -5,6 +5,7 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
+	"github.com/bwmarrin/snowflake"
 	"io"
 	crand "crypto/rand"
 	"math"
@@ -16,6 +17,17 @@ import (
 	"time"
 )
 
+
+func GenerateSnowId() int64{
+	node, _ := snowflake.NewNode(1)
+	// Generate a snowflake ID.
+	return node.Generate().Int64()
+}
+func GenerateOrderSnowId()string  {
+	node, _ := snowflake.NewNode(1)
+	// Generate a snowflake ID.
+	return node.Generate().String()
+}
 //获取随机数 纯文字
 func GetRandomString(n int) string {
 	str := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"

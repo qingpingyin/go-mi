@@ -13,6 +13,7 @@ var (
 	JwtConf         = Jwt{}
 	CaptchaConf     = Captcha{}
 	RedisConf		= Redis{}
+	QiNiuYunConf    =QiNiuYun{}
 )
 
 func Setup() {
@@ -48,5 +49,8 @@ func Setup() {
 
 	if err := viper.UnmarshalKey("redis", &RedisConf); err != nil {
 		log.Panic("redis配置文件格式错误", err)
+	}
+	if err := viper.UnmarshalKey("qiniuyun", &QiNiuYunConf); err != nil {
+		log.Panic("qiniuyun配置文件格式错误", err)
 	}
 }

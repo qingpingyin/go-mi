@@ -9,16 +9,14 @@ import (
 
 func Product(c *gin.Context){
 	Cid := c.Query("cid")
-
 	Page := c.DefaultQuery("page", "1")
-	PageSize := c.DefaultQuery("pageSize", "8")
-
+	PageSize := c.DefaultQuery("pageSize", "7")
+	Is_recursion := c.Query("is_recursion")
 	cid, _ := strconv.Atoi(Cid)
 	page,_ := strconv.Atoi(Page)
 	pageSize, _ := strconv.Atoi(PageSize)
-
-
-	service.GetProductByCid(c,page,pageSize,cid)
+	is_recursion,_:= strconv.ParseBool(Is_recursion)
+	service.GetProductByCid(c,page,pageSize,cid,is_recursion)
 }
 
 func GetProductDetail(c *gin.Context){

@@ -1,8 +1,8 @@
 package setting
 
 import (
-"flag"
-"os"
+	"flag"
+	"os"
 )
 
 var Path string
