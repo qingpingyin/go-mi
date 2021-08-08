@@ -10,7 +10,7 @@ application:
 
 # 数据库配置
 mysql:
-    host: 8.210.96.196
+    host: 101.132.127.139
     port: 3306
     user: root
     pwd: yinaini.

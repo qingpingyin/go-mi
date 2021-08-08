@@ -30,3 +30,7 @@ func GetProductByWhere(where ...interface{})(Product,error){
 	err := Db.Preload("ProductImg").First(&product, where...).Error
 	return product,err
 }
+func GetCountProductByWhere(where ...interface{})(count int64){
+	Db.Model(&Product{}).Where(where[0],where[1:]).Count(&count)
+	return
+}

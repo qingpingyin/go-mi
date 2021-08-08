@@ -1,16 +1,15 @@
 package models
 
-import "time"
 
 type Order struct {
 	OrderId string `json:"id" gorm:"type:varchar(50);primaryKey;not null;autoIncrement;comment:'主键'"`
 	Uid uint `json:"uid" gorm:"type:bigint(20);not null;comment:'userid'"`
 	Aid uint `json:"aid" gorm:"type:bigint(20);not null;comment:'地址id'"`
-	PayStatus uint `json:"pay_status" gorm:"type:int(10);default:1;not null;comment:'支付状态'"`
+	PayStatus uint `json:"pay_status" gorm:"type:int(10);default:1;not null;comment:'支付状态(1:待支付,2:已支付)'"`
 	Payment float64 `json:"payment" gorm:"varchar(50);not null;comment:'支付金额'"`
 	PaymentType uint `json:"payment_type" gorm:"type:int(10);default:1;not null;comment:'支付方式'"`
-	CreatedAt time.Time `json:"create_at" gorm:"not null;comment:'注册时间'"`
-	UpdatedAt  time.Time `json:"update_at" gorm:"not null;comment:'更新时间'"`
+	CreatedAt  int64 `json:"create_at" gorm:"not null;comment:'注册时间'"`
+	UpdatedAt  int64 `json:"update_at" gorm:"not null;comment:'更新时间'"`
 	OrderItem []OrderItem `json:"order_item" gorm:"foreignKey:OrderId"`
 }
 
@@ -32,6 +31,7 @@ func (o *Order)Create()error{
 			tx.Rollback()
 		}
 	}()
+
 	if err := tx.Create(&o).Error; err != nil {
 		tx.Rollback()
 		return err
@@ -42,6 +42,16 @@ func (o *Order)Create()error{
 func GetAllOrderBy(page,pageSize int,where ...interface{})([]Order,error){
 	var orders []Order
 	offset := GetOffset(page,pageSize)
-	err := Db.Preload("OrderItem").Limit(pageSize).Offset(offset).Find(&orders,where...).Order("create_at desc").Error
+	err := Db.Preload("OrderItem").Limit(pageSize).Offset(offset).Find(&orders,where...).Error
 	return orders,err
+}
+func GetAllOrderByWhere(where ...interface{})(Order,error){
+	var order Order
+	err := Db.Preload("OrderItem").First(&order,where...).Error
+	return order,err
+}
+
+func GetOrderCountBy(where ...interface{})(count int64){
+	Db.Model(&Order{}).Where(where[0],where[1:]...).Count(&count)
+	return
 }

@@ -59,15 +59,31 @@ func CreateOrder(c *gin.Context,req req.OrderReq){
 		cache.HashDel(context.Background(),cacheKey,strconv.Itoa(item))
 	}
 
-	response.RespSuccess(c,"")
+	response.RespData(c,"",order)
 }
 
 func OrderList(c *gin.Context,page,pageSize int,uid int){
 
-	orders, err := models.GetAllOrderBy(page, pageSize, "uid=?", uid)
+	list, err := models.GetAllOrderBy(page, pageSize, "uid=?", uid)
 	if err != nil {
 		logger.Logger.Error(err)
 		return
 	}
-	response.RespData(c,"",orders)
+	count := models.GetOrderCountBy("uid=?",uid)
+	response.RespData(c,"",map[string]interface{}{
+		"list":list,
+		"count":count,
+	})
 }
+
+func GetOrderById(c *gin.Context,oid string){
+
+	order,err := models.GetAllOrderByWhere("order_id=?",oid)
+	if err != nil {
+		logger.Logger.Error("select order info err:",err)
+		response.RespError(c,"该订单不存在")
+		return
+	}
+	response.RespData(c,"",order)
+}
+

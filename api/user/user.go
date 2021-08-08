@@ -123,7 +123,6 @@ func SingUpByMobile(c *gin.Context){
 		return
 	}
 	response.RespSuccess(c,"注册成功")
-	return
 }
 //发送手机验证码
 func SendSms(c *gin.Context){
@@ -186,7 +185,6 @@ func CheckCode(c *gin.Context){
 }
 
 func UserInfo(c *gin.Context){
-
 	user, exists := c.Get("user")
 	if !exists {
 		response.RespError(c,"用户未登录，请登录")
@@ -195,14 +193,14 @@ func UserInfo(c *gin.Context){
 	//从jwt中获取用户常用信息
 	userInfo := user.(*jwt.Claims)
 
-	if user, err := models.GetUserByWhere("id=?", userInfo.Id);err == nil {
-
-		response.RespData(c,"",user)
+	user, err := models.GetUserByWhere("id=?", userInfo.Id);
+	if err != nil {
+		logger.Logger.Error("select userInfo err:",err)
+		response.RespData(c,"查询个人信息失败","")
 	}
-
+	response.RespData(c,"ok",user)
 }
 func Logout(c *gin.Context){
-
 	user, exists := c.Get("user")
 	if !exists {
 		response.RespError(c,"用户未登录，请登录")
@@ -213,9 +211,8 @@ func Logout(c *gin.Context){
 	//将该用户的token加入黑名单 实现退出
 	if accessToken, has := request.GetParam(c, "Authorization");has{
 		jwt.AddBlack(string(userInfo.Id),accessToken)
-		response.RespSuccess(c,"")
+		response.RespSuccess(c,"ok")
 	}
-	return
 }
 func ForgetPassword(c *gin.Context){
 	var userMobile UserMobile
@@ -237,11 +234,9 @@ func ForgetPassword(c *gin.Context){
 	//判断手机号是否已注册
 	user, err:= models.GetUserByWhere("mobile=?", userMobile.Mobile)
 	if err != nil {
-
 		response.RespError(c,"该手机号未注册")
 		return
 	}
-
 	user.Mobile=userMobile.Mobile
 	user.Salt = common.GetRandomBoth(4)
 	user.Password = common.Sha1En(userMobile.Password+user.Salt)
@@ -259,7 +254,7 @@ func ForgetPassword(c *gin.Context){
 		response.RespError(c,"更新失败")
 		return
 	}
-	response.RespSuccess(c,"")
+	response.RespSuccess(c,"ok")
 }
 func BindEmail(c *gin.Context){
 	var emailReq req.EmailReq
@@ -270,6 +265,7 @@ func BindEmail(c *gin.Context){
 	}
 	token, err := jwt.GenerateEmailToken(emailReq)
 	if err != nil {
+		logger.Logger.Error("generate email token err:",err)
 		return
 	}
 	//获取 邮件模板
@@ -278,8 +274,7 @@ func BindEmail(c *gin.Context){
 		logger.Logger.Info("查询notice：",err)
 		return
 	}
-	emailStr := fmt.Sprintf("http://localhost:8081/#/validate/email/%s",
-		token)
+	emailStr := fmt.Sprintf("http://101.132.127.139/#/validate/email?token=%s",token)
 	emailContent := strings.Replace(notice.Ext,"validate",emailStr,-1)
 	if err := email.SendEmail(emailContent, emailReq.Email);err != nil {
 		logger.Logger.Error("send email err:",err)
@@ -290,7 +285,6 @@ func BindEmail(c *gin.Context){
 }
 
 func ValidateEmail(c *gin.Context){
-
 	token := c.Query("token")
 
 	if token == "" {
@@ -320,7 +314,7 @@ func ValidateEmail(c *gin.Context){
 			return
 		}
 	}
-	response.RespSuccess(c,"")
+	response.RespSuccess(c,"ok")
 }
 
 func UpdateUserInfo(c *gin.Context){

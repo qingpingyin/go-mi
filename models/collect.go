@@ -23,7 +23,10 @@ func GetCollectBy(where ...interface{}) (c []Collect) {
 	Db.Find(&c, where...)
 	return
 }
-
+func GetCollectCountBy(where ...interface{})(count int64){
+	Db.Model(&Collect{}).Where(where[0],where[1:]...).Count(&count)
+	return
+}
 func DelCollect(where ...interface{})error{
 	return Db.Where(where[0],where[1:]...).Delete(&Collect{}).Error
 }

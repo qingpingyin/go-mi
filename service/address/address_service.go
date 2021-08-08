@@ -44,3 +44,13 @@ func DeleteAddressById(c *gin.Context,id int){
 	response.RespSuccess(c,"")
 
 }
+
+func GetAddressById(c *gin.Context,aid int){
+	address, err := models.GetAddressByWhere("id=?", aid)
+	if err != nil {
+		logger.Logger.Error("select address err:",err)
+		response.RespError(c,"收货地址不存在")
+		return
+	}
+	response.RespData(c,"",address)
+}

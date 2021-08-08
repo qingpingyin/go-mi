@@ -7,7 +7,7 @@ type Cart struct {
 }
 
 type CartItem struct {
-	Cid int64 `json:"cid"`
+	Cid int64 `json:"cart_item_id"`
 	Product Product `json:"product"`
 	Num int `json:"num"`
 }

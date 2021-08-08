@@ -28,3 +28,12 @@ func GetProductDetail(c *gin.Context){
 	service.GetProductByPid(c,id)
 
 }
+
+func GetProductBySearch(c *gin.Context){
+	search := c.Query("search")
+	Page := c.DefaultQuery("page", "1")
+	PageSize := c.DefaultQuery("pageSize", "20")
+	page,_ := strconv.Atoi(Page)
+	pageSize, _ := strconv.Atoi(PageSize)
+	service.Search(c,search,page,pageSize)
+}

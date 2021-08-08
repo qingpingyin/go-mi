@@ -42,6 +42,7 @@ func CartList(c *gin.Context,uid string){
 	resp,err := cache.HashAll(context.Background(),cacheKey)
 	if err != nil {
 		logger.Logger.Error(err)
+		response.RespError(c,err)
 		return
 	}
 	//生成购物车唯一主键

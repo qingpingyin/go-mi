@@ -3,6 +3,7 @@ package collect
 import (
 	"MI/models"
 	"MI/models/req"
+	"MI/pkg/jwt"
 	"MI/pkg/logger"
 	"MI/pkg/validate"
 	"MI/utils/response"
@@ -57,4 +58,18 @@ func DelCollect(c *gin.Context){
 		response.RespError(c,"移除失败")
 	}
 	response.RespSuccess(c,"")
+}
+
+func CollectCount(c *gin.Context){
+	user, exists := c.Get("user")
+	if !exists {
+		response.RespError(c,"用户未登录，请登录")
+		return
+	}
+	//从jwt中获取用户常用信息
+	userInfo := user.(*jwt.Claims)
+
+	count := models.GetCollectCountBy("uid=?", userInfo.Id)
+
+	response.RespData(c,"",count)
 }

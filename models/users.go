@@ -7,7 +7,7 @@ import (
 
 type Users struct {
 	Id uint `json:"id" gorm:"primaryKey;not null;autoIncrement;comment:'主键'"`
-	Email string `json:"email" gorm:"type:varchar(50);unique;default:'';comment:'邮箱'"`
+	Email string `json:"email" gorm:"type:varchar(50);default:'';comment:'邮箱'"`
 	CreatedAt time.Time `json:"create_at" gorm:"not null;comment:'注册时间'"`
 	Ext string `json:"ext" gorm:"type:varchar(1000);default:'';comment:'扩展信息'"`
 	UpdatedAt  time.Time `json:"update_at" gorm:"not null;comment:'更新时间'"`

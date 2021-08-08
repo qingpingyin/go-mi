@@ -12,7 +12,7 @@ import (
 
 func DoLogin(c *gin.Context,user models.Users){
 	accessExpTime := time.Now().Add(time.Duration(setting.JwtConf.ExpTime)*time.Hour)
-	refreshExpTime := time.Now().Add(time.Duration(setting.JwtConf.ExpTime+1800)*time.Hour)
+	refreshExpTime := time.Now().Add(time.Duration(setting.JwtConf.ExpTime+100)*time.Hour)
 	accessToken, err := jwt.GenerateToken(user, accessExpTime)
 	if err != nil {
 		logger.Logger.Error(err)
@@ -27,7 +27,5 @@ func DoLogin(c *gin.Context,user models.Users){
 		"access_token":accessToken,
 		"refreshToken":refreshToken,
 	})
-
-	return
 }
 

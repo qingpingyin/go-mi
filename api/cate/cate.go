@@ -33,6 +33,14 @@ func Cate(c *gin.Context){
 					list[i].Product = product
 				}
 			}
+		case 2:
+			//这里遍历二级cate
+			 list,err = models.GetCategoriesBy("is_nav > ?",0)
+			if err != nil {
+				logger.Logger.Error("select cate err:",err)
+				return
+			}
+
 	}
 	response.RespData(c,"",list)
 }

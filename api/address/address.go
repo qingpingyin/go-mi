@@ -22,7 +22,11 @@ func Address(c *gin.Context){
 	uid := c.Query("uid")
 	service.Address(c,uid)
 }
-
+func GetAddressById(c *gin.Context){
+	aid := c.Query("aid")
+	id,_ := strconv.Atoi(aid)
+	service.GetAddressById(c,id)
+}
 func CreateAddress(c *gin.Context){
 	var addressReq models.Address
 	if err := c.BindJSON(&addressReq);err != nil {

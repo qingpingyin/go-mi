@@ -2,10 +2,12 @@ package cart
 
 import (
 	"MI/models"
+	"MI/pkg/jwt"
 	"MI/pkg/validate"
 	"MI/service/cart"
 	"MI/utils/response"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 var CartTrans =map[string]string{"Uid":"用户id","Pid":"商品id","Num":"商品数量"}
 func AddCart(c *gin.Context){
@@ -21,8 +23,14 @@ func AddCart(c *gin.Context){
 
 func CartList(c *gin.Context){
 
-	uid := c.Query("uid")
-
+	user, exists := c.Get("user")
+	if !exists {
+		response.RespError(c,"用户未登录，请登录")
+		return
+	}
+	//从jwt中获取用户常用信息
+	userInfo := user.(*jwt.Claims)
+	uid := strconv.Itoa(int(userInfo.Id))
 	service.CartList(c,uid)
 
 }

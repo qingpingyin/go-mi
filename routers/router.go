@@ -13,7 +13,6 @@ import (
 	"MI/middleware"
 	"MI/pkg/setting"
 	"MI/utils/response"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,56 +23,59 @@ func InitRouter() *gin.Engine{
 	r := gin.New()
 	r.Use(
 		gin.Recovery(),
-		cors.Default(),
+		middleware.CorsMiddleware(),
 		middleware.Logger(),
 		middleware.NoFound(),
 		)
-	{
-		r.GET("/", func(context *gin.Context) {
-			ip := context.ClientIP()
-			response.RespSuccess(context, ip)
-		})
-		r.POST("/singUpByMobile", user.SingUpByMobile)
-		r.POST("/sendSms", user.SendSms)
-		r.POST("/checkCode",user.CheckCode)
-		r.PUT("/forgetPassword",user.ForgetPassword)
-		r.POST("/login", user.Login)
-		r.GET("/validate/email",user.ValidateEmail)
-		r.GET("/carousel", carousel.Carousel)
-		r.GET("/cate", cate.Cate)
-		r.GET("/product", product.Product)
-		r.GET("/productDetail", product.GetProductDetail)
-
-	}
-
-	r.Use(middleware.JWTAuthMiddleware())
-	{
-		//user
-		r.GET("/userInfo",user.UserInfo)
-		r.POST("/logout",user.Logout)
-		r.PUT("/updateUser",user.UpdateUserInfo)
-		//email
-		r.POST("/bindEmail",user.BindEmail)
-		//cart
-		r.POST("/addCart",cart.AddCart)
-		r.GET("/cartList",cart.CartList)
-		r.PUT("/updateCartNum/:uid/:pid/:num",cart.CartUpdateNum)
-		r.DELETE("/deleteCart/:uid/:pid",cart.DeleteCart)
-		//collect
-		r.GET("/collect",collect.List)
-		r.POST("/collect",collect.CreateCollect)
-		r.DELETE("/collect/:uid/:pid",collect.DelCollect)
-		//address
-		r.GET("/address",address.Address)
-		r.POST("/address",address.CreateAddress)
-		r.DELETE("/address/:id",address.DeleteAddres)
-		//order
-		r.GET("/order",order.OrderList)
-		r.POST("/order",order.CreateOrder)
-		//upload
-		r.POST("/avatarUpload",upload.AvatarUpload)
-	}
-
+		v1 := r.Group("/api")
+		{
+			v1.GET("/", func(context *gin.Context) {
+				ip := context.ClientIP()
+				response.RespSuccess(context, ip)
+			})
+			v1.POST("/singUpByMobile", user.SingUpByMobile)
+			v1.POST("/sendSms", user.SendSms)
+			v1.POST("/checkCode", user.CheckCode)
+			v1.PUT("/forgetPassword", user.ForgetPassword)
+			v1.POST("/login", user.Login)
+			v1.GET("/validate/email", user.ValidateEmail)
+			v1.GET("/carousel", carousel.Carousel)
+			v1.GET("/cate", cate.Cate)
+			v1.GET("/search", product.GetProductBySearch)
+			v1.GET("/product", product.Product)
+			v1.GET("/productDetail", product.GetProductDetail)
+		}
+		v1.Use(middleware.JWTAuthMiddleware())
+		{
+			//user
+			v1.GET("/userInfo", user.UserInfo)
+			v1.POST("/logout", user.Logout)
+			v1.PUT("/updateUser", user.UpdateUserInfo)
+			//email
+			v1.POST("/bindEmail", user.BindEmail)
+			//cart
+			v1.POST("/addCart", cart.AddCart)
+			v1.GET("/cartList", cart.CartList)
+			v1.PUT("/updateCartNum/:uid/:pid/:num", cart.CartUpdateNum)
+			v1.DELETE("/deleteCart/:uid/:pid", cart.DeleteCart)
+			//collect
+			v1.GET("/collect", collect.List)
+			v1.POST("/collect", collect.CreateCollect)
+			v1.DELETE("/collect/:uid/:pid", collect.DelCollect)
+			v1.GET("/getCollectCount",collect.CollectCount)
+			//address
+			v1.GET("/address", address.Address)
+			v1.GET("/addressById", address.GetAddressById)
+			v1.POST("/address", address.CreateAddress)
+			v1.DELETE("/address/:id", address.DeleteAddres)
+			//order
+			v1.GET("/order", order.OrderList)
+			v1.GET("/orderById", order.GetOrderById)
+			v1.POST("/createOrder", order.CreateOrder)
+			v1.GET("/getOrderCount",order.GetOrderCountBy)
+			//upload
+			v1.POST("/avatarUpload", upload.AvatarUpload)
+		}
 	return r
 }
 

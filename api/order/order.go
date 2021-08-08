@@ -1,6 +1,7 @@
 package order
 
 import (
+	"MI/models"
 	"MI/models/req"
 	"MI/pkg/validate"
 	service "MI/service/order"
@@ -31,4 +32,21 @@ func OrderList(c *gin.Context){
 	page,_ := strconv.Atoi(Page)
 	pageSize, _ := strconv.Atoi(PageSize)
 	service.OrderList(c,page,pageSize,uid)
+}
+
+func GetOrderById(c *gin.Context){
+	oid := c.Query("oid")
+	service.GetOrderById(c,oid)
+}
+func GetOrderCountBy(c *gin.Context){
+
+	Uid := c.Query("uid")
+	Status := c.Query("status")
+
+	uid,_ := strconv.Atoi(Uid)
+	status,_ := strconv.Atoi(Status)
+
+	count := models.GetOrderCountBy("uid=? and pay_status=?",uid, status)
+
+	response.RespData(c,"",count)
 }
