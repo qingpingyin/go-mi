@@ -2,9 +2,9 @@
 
 # go-mi 仿小米商城
 
+
+
 ##### 此项目为前后端分离的项目，已经部署至:
-=======
-##### 此项目为前后端分离的项目，已经部署至:Cancel changes
 
 [http://101.132.127.139/#/index](http://101.132.127.139/#/index)，如需查看前端请前往[mi](https://github.com/qingpingyin/mi)
 
