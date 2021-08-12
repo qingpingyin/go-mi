@@ -7,13 +7,12 @@ application:
     port: 8088
     public_path:
     doamin: localhost # 设置 set-cookie httpOnly=true 使用，能有效防止 csrf 攻击
-
 # 数据库配置
 mysql:
-    host: 101.132.127.139
+    host: localhost
     port: 3306
     user: root
-    pwd: yinaini.
+    pwd: 123456
     db: mi
     prefix:
     max_idle: 10
@@ -25,17 +24,13 @@ redis :
     password:
     db: 0
     pool_size: 100
-
-
 # 日志配置
 log:
     path: ./log
     level: info # 合法选项 "panic" "fatal" "error" "warn" "warning" "info" "debug" "trace"
-
 # rbac 权限配置
 casbin:
     path:
-
 # 验证码配置
 captcha:
     length: 4
@@ -47,14 +42,13 @@ captcha:
         - wqy-microhei.ttc
     noise: 100
     line: 3
-
 # json web token 配置
 jwt:
     key: bfgdiojhnpbwfsfa23/*-/*-/sgdeasdg4sd6+0@%!
     exp_time: 100 #小时
 #七牛云配置
 qiniuyun:
-    accessKey: aDgkfcB_ysJMkoY91w4hlb-Cf4EQkc3KzC8jSlNf
-    secretKey: 8qeDeC-n-9hH0xrdh9Ualftgi0YcJuVwQ_WzPBPK
-    bucket: go-mi
-    server: http://qwhu0mnc1.hn-bkt.clouddn.com/
+    accessKey:
+    secretKey:
+    bucket:
+    server:
