@@ -4,9 +4,9 @@
 
 
 
-##### 此项目为前后端分离的项目，已经部署至:
+##### 此项目为前后端分离的项目，已经部署至:Cancel changes
 
-[http://101.132.127.139/#/index](http://101.132.127.139/#/index)，如需查看前端请前往[mi](https://github.com/qingpingyin/go-mi)
+[http://101.132.127.139/#/index](http://101.132.127.139/#/index)，如需查看前端请前往[mi](https://github.com/qingpingyin/mi)
 
 后续将完善 第三方登录(未完成)，支付(未完成)，手机短信验证码(目前使用测试代码)，Elasticsearch重写搜索系统（未完成）,后台管理系统(已完成)：
 
